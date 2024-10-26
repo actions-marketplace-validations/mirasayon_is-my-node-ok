@@ -1,6 +1,6 @@
 {
 	"name": "is-my-node-ok",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "package that checks if your Node.js installation is vulnerable to known security vulnerabilities",
 	"scripts": {
 		"build": "tsc -p ./tsconfig.json",
@@ -20,7 +20,10 @@
 	"bin": {
 		"is-my-node-ok": "./dist/cli.js"
 	},
-	"keywords": ["security", "nodejs"],
+	"keywords": [
+		"security",
+		"nodejs"
+	],
 	"license": "MIT",
 	"dependencies": {
 		"@actions/core": "^1.11.1",
