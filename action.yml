@@ -1,4 +1,4 @@
-name: 'is-my-node-vulnerable'
+name: 'is-my-node-ok'
 description: 'checks if your Node.js installation is vulnerable to known security vulnerabilities'
 author: 'Mirasayon'
 
