@@ -9,10 +9,9 @@ async function run() {
 	info(`Checking Node.js version ${nodeVersion} with platform ${platform}...`);
 	const isVulnerable = await isNodeVulnerable(nodeVersion, platform);
 	if (isVulnerable) {
-		setFailed(`Node.js version ${nodeVersion} is vulnerable. Please upgrade!`);
-	} else {
-		info(`Node.js version ${nodeVersion} is OK!`);
+		return setFailed(`Node.js version ${nodeVersion} is vulnerable. Please upgrade!`);
 	}
+	return info(`Node.js version ${nodeVersion} is OK!`);
 }
 
 run();
