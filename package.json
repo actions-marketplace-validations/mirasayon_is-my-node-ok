@@ -1,6 +1,6 @@
 {
 	"name": "is-my-node-ok",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Package that checks if your Node.js installation is vulnerable to known security vulnerabilities. Minimum Node.js version: 7.10.1",
 	"scripts": {
 		"build": "tsc -p ./tsconfig.json",
@@ -21,7 +21,11 @@
 	"bin": {
 		"is-my-node-ok": "dist/cli.js"
 	},
-	"keywords": ["security", "nodejs", "environment"],
+	"keywords": [
+		"security",
+		"nodejs",
+		"environment"
+	],
 	"license": "MIT",
 	"dependencies": {
 		"@actions/core": "^1.11.1",
