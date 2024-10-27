@@ -4,8 +4,6 @@
 .env
 .env.*
 
-.etag
-core.json
-
 /dist
 
+/data

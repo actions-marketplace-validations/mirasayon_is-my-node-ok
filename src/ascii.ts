@@ -1,4 +1,5 @@
-import { bold, red, green } from "cli-color";
+import pkg from "cli-color";
+const { bold, red, green } = pkg;
 
 const danger = red("Danger");
 const allGood = `All good ${green(":)")}`;

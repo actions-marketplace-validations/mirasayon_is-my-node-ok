@@ -1,11 +1,8 @@
-#!/usr/bin/env node
-import { platform } from "node:os";
-import { version } from "node:process";
-import { main, loadETag } from "./check.js";
-async function cli() {
-	if (process.argv[2] !== "-r") {
-		await loadETag();
-	}
-	await main(version, platform());
+import os from "os";
+import { main } from "./check.js";
+async function cli(): Promise<void> {
+	await main(process.version, os.platform());
+
+	console.log("Thanks for using our lib.");
 }
 cli();

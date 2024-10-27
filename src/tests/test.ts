@@ -1,7 +1,6 @@
-import assert from "node:assert";
-import nv from "@pkgjs/nv";
-import { isNodeVulnerable } from "./check.js";
-
+import assert from "assert";
+import { isNodeVulnerable } from "../check.js";
+import { nv } from "../utils/nv/index.js";
 /**
  * of course, this test is fragile
  */

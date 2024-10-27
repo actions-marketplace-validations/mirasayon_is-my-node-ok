@@ -1,19 +1,18 @@
 # is-my-node-ok
 
-This package helps ensure the security of your Node.js installation by checking for known vulnerabilities.
+This package helps ensure the security of your Node.js installation by checking for known vulnerabilities. Minimum Node.js version: 7.10.1
 It compares the version of Node.js you have installed (`process.version`) to the [Node.js Security Database][]
 and alerts you if a vulnerability is found.
 
 ## Usage
 
-```
+```bash
 npx is-my-node-ok
 ```
 
 It's strongly recommended to include this as a step in the app CI.
 
 ### Output - When vulnerable
-
 
 ```console
 $ node -v
@@ -74,7 +73,6 @@ isNodeVulnerable('19.0.0', 'linux') // true
 ```
 
 [Node.js Security Database]: https://github.com/nodejs/security-wg/tree/main/vuln
-
 
 ## Github Action
 

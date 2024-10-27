@@ -1,67 +1,15 @@
-import { request, stream, setGlobalDispatcher, Agent } from "undici";
-import EE from "node:events";
-import fs from "node:fs/promises";
-import path from "node:path";
-import debugModule from "debug";
-const debug = debugModule("is-my-node-vulnerable");
+import path from "path";
 import satisfies from "semver/functions/satisfies";
 import { danger, vulnerableWarning, bold, separator, allGood } from "./ascii.js";
-import nv from "@pkgjs/nv";
-import { createWriteStream, existsSync, type WriteStream } from "node:fs";
-import type { corejson } from "src/types/core.json.js";
+import { readFileSync } from "fs";
+import type { corejson } from "./types/core.json.js";
+import { nv } from "./utils/nv/index.js";
+import { rootPath } from "./utils/paths.js";
 
-setGlobalDispatcher(new Agent({ connections: 20 }));
+/** `./data/vuln.json` */
+const coreLocalFile = path.join(rootPath, "data", "vuln.json");
 
-const CORE_RAW_URL = "https://raw.githubusercontent.com/nodejs/security-wg/main/vuln/core/index.json";
-
-let lastETagValue: string | NodeJS.ArrayBufferView | undefined;
-
-const coreLocalFile = path.join(__dirname, "core.json");
-const ETagFile = path.join(__dirname, ".etag");
-async function readLocal(file: string) {
-	const str = await fs.readFile(file, { encoding: "utf-8" });
-	const obj = JSON.parse(str);
-	return obj as corejson;
-}
-
-async function loadETag() {
-	if (existsSync(ETagFile)) {
-		debug("Loading local ETag");
-		lastETagValue = (await fs.readFile(ETagFile)).toString();
-	}
-}
-
-async function updateLastETag(etag: string) {
-	lastETagValue = etag;
-	await fs.writeFile(ETagFile, lastETagValue);
-}
-
-async function fetchCoreIndex(): Promise<WriteStream | corejson> {
-	const abortRequest = new EE();
-	await stream(CORE_RAW_URL, { signal: abortRequest, method: "GET" }, ({ statusCode }) => {
-		if (statusCode !== 200) {
-			console.error("Request to Github failed. Aborting...");
-			abortRequest.emit("abort");
-			process.nextTick(() => {
-				process.exit(1);
-			});
-		}
-		const ws = createWriteStream(coreLocalFile, { flags: "w", autoClose: true });
-		return ws;
-	});
-	return readLocal(coreLocalFile);
-}
-
-async function getCoreIndex() {
-	const { headers } = await request(CORE_RAW_URL, { method: "HEAD" });
-	if (!lastETagValue || lastETagValue !== headers.etag || !existsSync(coreLocalFile)) {
-		updateLastETag(headers.etag as string);
-		debug("Creating local core.json");
-		return (await fetchCoreIndex()) as corejson;
-	}
-	debug(`No updates from upstream. Getting a cached version: ${coreLocalFile}`);
-	return (await readLocal(coreLocalFile)) as corejson;
-}
+const vulnerabilitiesJSON = JSON.parse(readFileSync(coreLocalFile, "utf8")) as corejson;
 
 const checkPlatform = (platform?: string) => {
 	const availablePlatforms = ["aix", "darwin", "freebsd", "linux", "openbsd", "sunos", "win32", "android"];
@@ -103,25 +51,23 @@ async function main(currentVersion: string, platform: string) {
 	const isEOL = await isNodeEOL(currentVersion);
 	if (isEOL) {
 		console.error(danger);
-		console.error(`${currentVersion} is end-of-life. There are high chances of being vulnerable. Please upgrade it.`);
-		process.exit(1);
+		console.error(
+			`Node.js ${currentVersion} is end-of-life. There are high chances of being vulnerable. Please upgrade it.`,
+		);
+		return;
 	}
 
-	const coreIndex = await getCoreIndex();
-	const list = getVulnerabilityList(currentVersion, coreIndex, platform);
+	const list = getVulnerabilityList(currentVersion, vulnerabilitiesJSON, platform);
 	if (list.length) {
 		console.error(danger);
 		console.error(`${vulnerableWarning}\n`);
-		console.error(`${list.join(`\n${separator}\n\n`)}\n${separator}`);
-		process.exit(1);
-	} else {
-		console.info(allGood);
+		return console.error(`${list.join(`\n${separator}\n\n`)}\n${separator}`);
 	}
+	return console.info(allGood);
 }
-
 /**
- * @param {string} version
- * @returns {Promise<boolean>} true if the version is end-of-life
+ * @param version Node version
+ * @returns true if the version is end-of-life
  */
 async function isNodeEOL(version: string): Promise<boolean> {
 	const myVersionInfo = await nv(version);
@@ -143,20 +89,20 @@ async function isNodeEOL(version: string): Promise<boolean> {
 	return now > end;
 }
 
+/**
+ *
+ * @param version Node version
+ * @param platform Platform name
+ * @returns false if ok, true otherwise
+ */
 async function isNodeVulnerable(version: string, platform?: string) {
 	checkPlatform(platform);
 	const isEOL = await isNodeEOL(version);
 	if (isEOL) {
 		return true;
 	}
-
-	const coreIndex = await getCoreIndex();
-	const list = getVulnerabilityList(version, coreIndex, platform);
+	const list = getVulnerabilityList(version, vulnerabilitiesJSON, platform);
 	return list.length > 0;
 }
 
-// if (process.argv[2] !== '-r') {
-//     loadETag()
-// }
-
-export { isNodeVulnerable, main, loadETag };
+export { isNodeVulnerable, main };

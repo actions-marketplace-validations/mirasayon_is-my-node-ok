@@ -1,42 +1,40 @@
 {
 	"name": "is-my-node-ok",
 	"version": "0.0.2",
-	"description": "package that checks if your Node.js installation is vulnerable to known security vulnerabilities",
+	"description": "Package that checks if your Node.js installation is vulnerable to known security vulnerabilities. Minimum Node.js version: 7.10.1",
 	"scripts": {
 		"build": "tsc -p ./tsconfig.json",
+		"ts-watch": "tsc -p ./tsconfig.json --watch",
 		"test": "node ./dist/test.js",
 		"lint": "biome format --write ./src"
 	},
-	"homepage": "https://github.com/mirasayon/is-my-node-ok#is-my-node-ok",
+	"homepage": "https://github.com/mirasayon/is-my-node-ok#readme",
 	"author": "Mirasayon <mirasayon@ya.ru>",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/mirasayon/is-my-node-ok.git"
 	},
 	"main": "./dist/index.js",
-	"module": "./dist/index.js",
+	"module": "./dist/index.mjs",
 	"type": "commonjs",
 	"types": "./dist/index.d.ts",
 	"bin": {
 		"is-my-node-ok": "./dist/cli.js"
 	},
-	"keywords": [
-		"security",
-		"nodejs"
-	],
+	"keywords": ["security", "nodejs", "environment"],
 	"license": "MIT",
 	"dependencies": {
 		"@actions/core": "^1.11.1",
-		"@pkgjs/nv": "^0.2.2",
 		"cli-color": "^2.0.4",
-		"debug": "^4.3.7",
-		"semver": "^7.6.3",
-		"undici": "^6.20.1"
+		"semver": "^7.6.3"
+	},
+	"engines": {
+		"node": ">=7.10.1"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
+		"@swc/core": "^1.7.40",
 		"@types/cli-color": "^2.0.6",
-		"@types/debug": "^4.1.12",
 		"@types/node": "^22.8.1",
 		"@types/semver": "^7.5.8",
 		"typescript": "^5.6.3"

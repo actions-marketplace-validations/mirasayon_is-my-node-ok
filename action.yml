@@ -4,7 +4,7 @@ author: 'Mirasayon'
 
 runs:
   using: 'node20'
-  main: 'dist/index.js'
+  main: 'node ./dist/cli.js'
 
 inputs:
   node-version:
