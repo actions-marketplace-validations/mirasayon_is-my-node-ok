@@ -15,17 +15,13 @@
 		"url": "https://github.com/mirasayon/is-my-node-ok.git"
 	},
 	"main": "./dist/index.js",
-	"module": "./dist/index.mjs",
+	"module": "./dist/index.js",
 	"type": "commonjs",
 	"types": "./dist/index.d.ts",
 	"bin": {
-		"is-my-node-ok": "./dist/cli.js"
+		"is-my-node-ok": "dist/cli.js"
 	},
-	"keywords": [
-		"security",
-		"nodejs",
-		"environment"
-	],
+	"keywords": ["security", "nodejs", "environment"],
 	"license": "MIT",
 	"dependencies": {
 		"@actions/core": "^1.11.1",

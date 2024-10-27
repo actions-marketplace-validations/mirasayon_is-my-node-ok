@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import os from "os";
 import { main } from "./check.js";
 async function cli(): Promise<void> {
