@@ -20,3 +20,4 @@ drafts.md
 logs/
 
 tsconfig.tsbuildinfo
+/.vscode
