@@ -1,46 +1,52 @@
 {
-	"name": "is-my-node-ok",
-	"version": "0.1.1",
-	"description": "Package that checks if your Node.js installation is vulnerable to known security vulnerabilities. Minimum Node.js version: 7.10.1",
-	"scripts": {
-		"build": "tsc -p ./tsconfig.json",
-		"ts-watch": "tsc -p ./tsconfig.json --watch",
-		"test": "node ./dist/test.js",
-		"lint": "biome format --write ./src"
-	},
-	"homepage": "https://github.com/mirasayon/is-my-node-ok#readme",
-	"author": "Mirasayon <mirasayon@ya.ru>",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/mirasayon/is-my-node-ok.git"
-	},
-	"main": "./dist/index.js",
-	"module": "./dist/index.js",
-	"type": "commonjs",
-	"types": "./dist/index.d.ts",
-	"bin": {
-		"is-my-node-ok": "dist/cli.js"
-	},
-	"keywords": [
-		"security",
-		"nodejs",
-		"environment"
-	],
-	"license": "MIT",
-	"dependencies": {
-		"@actions/core": "^1.11.1",
-		"cli-color": "^2.0.4",
-		"semver": "^7.6.3"
-	},
-	"engines": {
-		"node": ">=7.10.1"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "^1.9.4",
-		"@swc/core": "^1.7.40",
-		"@types/cli-color": "^2.0.6",
-		"@types/node": "^22.8.1",
-		"@types/semver": "^7.5.8",
-		"typescript": "^5.6.3"
-	}
+    "name": "is-my-node-ok",
+    "version": "1.0.0",
+    "description": "Package that checks if your Node.js installation is vulnerable to known security vulnerabilities. Minimum Node.js version: 7.10.1",
+    "scripts": {
+        "build": "rimraf dist && tsc -b",
+        "ts-watch": "tsc -p ./tsconfig.json --watch",
+        "ts:inspect": "tsc --noEmit -p ./tsconfig.json --watch",
+        "test": "tsx src/tests/index.ts"
+    },
+    "homepage": "https://github.com/mirasayon/is-my-node-ok#readme",
+    "author": {
+        "email": "mirasayon@ya.ru",
+        "name": "Mirasayon",
+        "url": "https://mirasayon.com/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mirasayon/is-my-node-ok.git"
+    },
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
+    "type": "commonjs",
+    "types": "./dist/index.d.ts",
+    "bin": {
+        "is-my-node-ok": "dist/cli.js"
+    },
+    "keywords": [
+        "security",
+        "nodejs",
+        "environment"
+    ],
+    "license": "MIT",
+    "dependencies": {
+        "@actions/core": "^1.11.1",
+        "@pkgjs/nv": "^0.2.2",
+        "cli-color": "^2.0.4",
+        "semver": "^7.7.2"
+    },
+    "engines": {
+        "node": ">=7.10.1"
+    },
+    "devDependencies": {
+        "@types/cli-color": "^2.0.6",
+        "@types/node": "^24.2.0",
+        "@types/semver": "^7.7.0",
+        "rimraf": "^6.0.1",
+        "tsx": "^4.20.3",
+        "typescript": "^5.9.2",
+        "uvu": "^0.5.6"
+    }
 }

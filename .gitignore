@@ -6,4 +6,10 @@
 
 /dist
 
-/data
+security.etag
+security.json
+
+drafts.md
+tsconfig.tsbuildinfo
+
+logs/

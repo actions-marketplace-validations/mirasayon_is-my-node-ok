@@ -8,8 +8,16 @@
 
 action.yml
 
-biome.jsonc
+.prettierrc
 
 tsconfig.json
 
 /dist/tests
+security.etag
+security.json
+
+drafts.md
+logs/
+
+tsconfig.tsbuildinfo
+/.vscode
